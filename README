@@ -4,3 +4,6 @@ To compile, first build Minisketch and copy over libminisketch.a and
 minisketch.h. Then run make.
 
 By default Minisketch uses -O2. We als use -O2 when building the executable.
+
+Note that the benchmark does not consider time to generate coded symbols. It
+only measures the decoding time.
