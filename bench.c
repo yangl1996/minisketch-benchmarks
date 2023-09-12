@@ -7,13 +7,14 @@
 #include "./minisketch.h"
 
 int main(int argc, char *argv[]) {
-	if (argc < 4) {
-		printf("usage: ./benchmark <diff> <n_tests> <elem_bit>\n");
+	if (argc < 5) {
+		printf("usage: ./benchmark <common> <diff> <n_tests> <elem_bit>\n");
 		return 0;
 	}
-	int DIFF = atoi(argv[1]);
-	int NTESTS = atoi(argv[2]);
-	int LEN = atoi(argv[3]); // this is bits not bytes!
+	int COMMON = atoi(argv[1]);
+	int DIFF = atoi(argv[2]);
+	int NTESTS = atoi(argv[3]);
+	int LEN = atoi(argv[4]); // this is bits not bytes!
 	if (!minisketch_bits_supported(LEN)) {
 		printf("%d-bit elements are not supported\n", LEN);
 		return 1;
@@ -21,10 +22,16 @@ int main(int argc, char *argv[]) {
 
 	minisketch *sketch_a = minisketch_create(LEN, 0, DIFF);
 
-	for (int i = 1; i <= DIFF; ++i) {
+	for (int i = 1; i <= COMMON; ++i) {
 		minisketch_add_uint64(sketch_a, i);
 		if (i % 1000 == 0) {
-			printf("%d symbols added\n", i);
+			printf("%d symbols added to a\n", i);
+		}
+	}
+	for (int i = COMMON+1; i <= COMMON+DIFF; ++i) {
+		minisketch_add_uint64(sketch_a, i);
+		if (i % 1000 == 0) {
+			printf("%d symbols added to a\n", i);
 		}
 	}
 
@@ -34,6 +41,12 @@ int main(int argc, char *argv[]) {
 	minisketch_destroy(sketch_a);
 
 	minisketch *sketch_b = minisketch_create(LEN, 0, DIFF); // Bob's own sketch
+	for (int i = 1; i <= COMMON; ++i) {
+		minisketch_add_uint64(sketch_b, i);
+		if (i % 1000 == 0) {
+			printf("%d symbols added to b\n", i);
+		}
+	}
 
 	sketch_a = minisketch_create(LEN, 0, DIFF);     // Alice's sketch
 	minisketch_deserialize(sketch_a, buffer_a); // Load Alice's sketch
