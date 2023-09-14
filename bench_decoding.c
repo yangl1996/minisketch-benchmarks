@@ -35,7 +35,6 @@ main(int argc, char *argv[]) {
 	}
 	clock_t end = clock();
 	minisketch_destroy(sketch_a);
-	float seconds = (float)(end - start) / CLOCKS_PER_SEC / (float)NTESTS;
-
-	printf("%.2f ms, %.2f diff/s\n", seconds * 1000, (float)DIFF/seconds);
+	double seconds = (double)(end - start) / (double)CLOCKS_PER_SEC / (double)NTESTS;
+	printf("%.2f\n", (double)DIFF/seconds);
 }
