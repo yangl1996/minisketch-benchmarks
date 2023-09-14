@@ -7,3 +7,4 @@ By default Minisketch uses -O2. We also use -O2 when building the executable.
 
 To pin the executable to one CPU core, use cpuset(1). For example
 	cpuset -l 0 ./decoding 100 1000 64
+
