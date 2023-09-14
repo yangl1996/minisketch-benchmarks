@@ -2,3 +2,6 @@ benchmark
 libminisketch.a
 minisketch.h
 *.core
+overall
+encoding
+decoding
